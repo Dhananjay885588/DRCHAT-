@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DRCHAT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f3f6;
+      color: #111;
+    }
+
+    .app {
+      max-width: 500px;
+      margin: auto;
+      height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: #075e54;
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .status {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* Profile */
+    .profile {
+      padding: 15px;
+      background: #e8f5f2;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .profile input {
+      width: 70%;
+      padding: 11px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .profile button {
+      padding: 11px 13px;
+      margin-left: 5px;
+      border: none;
+      border-radius: 8px;
+      background: #075e54;
+      color: white;
+    }
+
+    /* Chat list */
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .chat {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .chat:hover {
+      background: #f5f5f5;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #075e54;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .chat-info {
+      flex: 1;
+    }
+
+    .chat-name {
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .last-message {
+      color: #777;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    /* Chat screen */
+    .chat-screen {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background: #075e54;
+      color: white;
+      padding: 13px;
+      display: flex;
+      align-items: center;
+    }
+
+    .back {
+      font-size: 25px;
+      margin-right: 15px;
+      cursor: pointer;
+    }
+
+    .chat-header-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #efeae2;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 13px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .received {
+      background: white;
+      margin-right: auto;
+    }
+
+    .sent {
+      background: #d9fdd3;
+      margin-left: auto;
+    }
+
+    /* Message box */
+    .message-box {
+      padding: 8px;
+      display: flex;
+      background: #f0f0f0;
+    }
+
+    .message-box input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .send {
+      width: 48px;
+      height: 48px;
+      margin-left: 7px;
+      border: none;
+      border-radius: 50%;
+      background: #075e54;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      margin-top: 30px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- MAIN SCREEN -->
+  <div id="homeScreen">
+
+    <div class="header">
+      <div class="logo">DRCHAT</div>
+      <div class="status">Online</div>
+    </div>
+
+    <div class="profile">
+      <input
+        type="text"
+        id="username"
+        placeholder="Apna naam likho"
+      >
+
+      <button onclick="saveName()">
+        Save
+      </button>
+    </div>
+
+    <div class="chat-list">
+
+      <div class="chat" onclick="openChat('DRCHAT Support')">
+
+        <div class="avatar">
+          D
+        </div>
+
+        <div class="chat-info">
+
+          <div class="chat-name">
+            DRCHAT Support
+          </div>
+
+          <div class="last-message">
+            Welcome to DRCHAT 👋
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="chat" onclick="openChat('Friend')">
+
+        <div class="avatar">
+          F
+        </div>
+
+        <div class="chat-info">
+
+          <div class="chat-name">
+            Friend
+          </div>
+
+          <div class="last-message">
+            Start chatting...
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- CHAT SCREEN -->
+  <div id="chatScreen" class="chat-screen">
+
+    <div class="chat-header">
+
+      <div class="back" onclick="closeChat()">
+        ←
+      </div>
+
+      <div class="chat-header-name" id="chatName">
+        Chat
+      </div>
+
+    </div>
+
+
+    <div id="messages" class="messages">
+
+    </div>
+
+
+    <div class="message-box">
+
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Message likho..."
+        onkeydown="checkEnter(event)"
+      >
+
+      <button
+        class="send"
+        onclick="sendMessage()"
+      >
+        ➤
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  let currentChat = "";
+
+  /* Naam save karna */
+  function saveName() {
+
+    const name =
+      document.getElementById("username").value.trim();
+
+    if (name === "") {
+      alert("Pehle apna naam likho.");
+      return;
+    }
+
+    localStorage.setItem("drchat_username", name);
+
+    alert("Naam save ho gaya: " + name);
+  }
+
+
+  /* Chat open */
+  function openChat(name) {
+
+    currentChat = name;
+
+    document.getElementById("homeScreen").style.display =
+      "none";
+
+    document.getElementById("chatScreen").style.display =
+      "flex";
+
+    document.getElementById("chatName").innerText =
+      name;
+
+    loadMessages();
+
+  }
+
+
+  /* Chat close */
+  function closeChat() {
+
+    document.getElementById("chatScreen").style.display =
+      "none";
+
+    document.getElementById("homeScreen").style.display =
+      "block";
+
+  }
+
+
+  /* Message send */
+  function sendMessage() {
+
+    const input =
+      document.getElementById("messageInput");
+
+    const message =
+      input.value.trim();
+
+    if (message === "") {
+      return;
+    }
+
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          "drchat_messages_" + currentChat
+        ) || "[]"
+      );
+
+    messages.push({
+      text: message,
+      type: "sent"
+    });
+
+    localStorage.setItem(
+      "drchat_messages_" + currentChat,
+      JSON.stringify(messages)
+    );
+
+    input.value = "";
+
+    loadMessages();
+
+  }
+
+
+  /* Messages load */
+  function loadMessages() {
+
+    const box =
+      document.getElementById("messages");
+
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          "drchat_messages_" + currentChat
+        ) || "[]"
+      );
+
+    box.innerHTML = "";
+
+    if (messages.length === 0) {
+
+      box.innerHTML =
+        '<div class="empty">Abhi koi message nahi hai.<br>Message bhejo 👋</div>';
+
+      return;
+
+    }
+
+    messages.forEach(function(message) {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "message " + message.type;
+
+      div.innerText =
+        message.text;
+
+      box.appendChild(div);
+
+    });
+
+    box.scrollTop =
+      box.scrollHeight;
+
+  }
+
+
+  /* Enter se message send */
+  function checkEnter(event) {
+
+    if (event.key === "Enter") {
+
+      sendMessage();
+
+    }
+
+  }
+
+
+  /* Saved username load */
+  window.onload = function() {
+
+    const savedName =
+      localStorage.getItem("drchat_username");
+
+    if (savedName) {
+
+      document.getElementById("username").value =
+        savedName;
+
+    }
+
+  };
+
+</script>
+
+</body>
+  </html>
