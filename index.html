@@ -7,29 +7,165 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#eee}
-.app{max-width:500px;margin:auto;height:100vh;background:#fff;display:flex;flex-direction:column}
-.header{background:#075e54;color:white;padding:15px;display:flex;justify-content:space-between}
-.logo{font-size:24px;font-weight:bold}
-.screen{flex:1;overflow:auto}
-.box{padding:18px}
-input{width:100%;padding:13px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
-button{padding:12px 18px;border:0;border-radius:8px;background:#075e54;color:white;font-size:15px;margin:5px 2px}
-button.red{background:#c62828}
-.user{padding:12px;border-bottom:1px solid #ddd;cursor:pointer}
-.user:hover{background:#f5f5f5}
-.chatHeader{background:#075e54;color:white;padding:13px;display:flex;align-items:center}
-.back{font-size:25px;margin-right:15px}
-.messages{flex:1;padding:12px;overflow:auto;background:#efeae2}
-.chatScreen{display:none;flex-direction:column;height:100%}
-.msg{max-width:75%;padding:9px 12px;margin:6px 0;border-radius:10px;word-wrap:break-word}
-.sent{background:#d9fdd3;margin-left:auto}
-.received{background:white;margin-right:auto}
-.messageBox{display:flex;padding:7px;background:#eee}
-.messageBox input{margin:0;flex:1;border-radius:25px}
-.send{width:50px;border-radius:50%;margin-left:6px}
-.small{color:#777;font-size:13px;margin:5px 0}
-.hidden{display:none}
+
+html,body{
+width:100%;
+height:100%;
+background:#eee;
+}
+
+.app{
+width:100%;
+max-width:500px;
+height:100vh;
+margin:auto;
+background:#fff;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+.header{
+background:#075e54;
+color:white;
+padding:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:25px;
+font-weight:bold;
+}
+
+.screen{
+flex:1;
+overflow:auto;
+}
+
+.box{
+padding:18px;
+}
+
+h2{
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:14px;
+margin:6px 0;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+outline:none;
+}
+
+button{
+padding:13px 18px;
+border:0;
+border-radius:8px;
+background:#075e54;
+color:white;
+font-size:16px;
+margin:5px 2px;
+}
+
+.small{
+color:#777;
+font-size:14px;
+margin:7px 0;
+}
+
+.hidden{
+display:none!important;
+}
+
+.user{
+padding:14px;
+border-bottom:1px solid #ddd;
+cursor:pointer;
+}
+
+.chatScreen{
+display:none;
+flex:1;
+flex-direction:column;
+min-height:0;
+}
+
+.chatHeader{
+background:#075e54;
+color:white;
+padding:13px;
+display:flex;
+align-items:center;
+}
+
+.back{
+font-size:28px;
+margin-right:15px;
+cursor:pointer;
+}
+
+.messages{
+flex:1;
+min-height:0;
+padding:12px;
+overflow-y:auto;
+background:#efeae2;
+}
+
+.msg{
+max-width:75%;
+padding:9px 12px;
+margin:6px 0;
+border-radius:10px;
+word-wrap:break-word;
+font-size:16px;
+}
+
+.sent{
+background:#d9fdd3;
+margin-left:auto;
+}
+
+.received{
+background:white;
+margin-right:auto;
+}
+
+.messageBox{
+display:flex;
+align-items:center;
+padding:7px;
+background:#eee;
+}
+
+.messageBox input{
+margin:0;
+flex:1;
+border-radius:25px;
+}
+
+.send{
+width:52px;
+height:48px;
+padding:0;
+border-radius:50%;
+margin-left:6px;
+font-size:22px;
+}
+
+#status{
+display:none;
+padding:8px;
+font-size:13px;
+text-align:center;
+background:#fff3cd;
+color:#664d03;
+}
 </style>
 </head>
 
@@ -39,20 +175,31 @@ button.red{background:#c62828}
 
 <!-- LOGIN -->
 <div id="loginScreen" class="screen">
+
 <div class="header">
 <div class="logo">DRCHAT</div>
 </div>
 
 <div class="box">
+
 <h2>DRCHAT Login</h2>
 
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<input
+id="email"
+type="email"
+placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
 
 <button onclick="login()">Login</button>
+
 <button onclick="signup()">Create Account</button>
 
 <p id="loginMsg" class="small"></p>
+
 </div>
 </div>
 
@@ -61,18 +208,29 @@ button.red{background:#c62828}
 <div id="homeScreen" class="screen hidden">
 
 <div class="header">
+
 <div class="logo">DRCHAT</div>
+
 <button onclick="logout()">Logout</button>
+
 </div>
 
 <div class="box">
-<h3 id="myName">DRCHAT</h3>
-<p class="small">Username se user search karo</p>
 
-<input id="searchUser" placeholder="Username likho">
+<h3 id="myName">DRCHAT</h3>
+
+<p class="small">
+Username se user search karo
+</p>
+
+<input
+id="searchUser"
+placeholder="Username likho">
+
 <button onclick="searchUser()">Search</button>
 
 <div id="searchResult"></div>
+
 </div>
 
 </div>
@@ -82,17 +240,33 @@ button.red{background:#c62828}
 <div id="chatScreen" class="chatScreen">
 
 <div class="chatHeader">
-<div class="back" onclick="closeChat()">←</div>
+
+<div
+class="back"
+onclick="closeChat()">←</div>
+
 <div id="chatUser">Chat</div>
+
 </div>
 
-<div id="messages" class="messages"></div>
+<div id="status"></div>
+
+<div
+id="messages"
+class="messages">
+</div>
 
 <div class="messageBox">
-<input id="messageInput"
+
+<input
+id="messageInput"
 placeholder="Message likho..."
 onkeydown="enterSend(event)">
-<button class="send" onclick="sendMessage()">➤</button>
+
+<button
+class="send"
+onclick="sendMessage()">➤</button>
+
 </div>
 
 </div>
@@ -119,6 +293,7 @@ getFirestore,
 doc,
 setDoc,
 getDoc,
+getDocs,
 collection,
 addDoc,
 query,
@@ -129,76 +304,168 @@ serverTimestamp
 from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
-/* FIREBASE CONFIG */
+/* FIREBASE */
 
 const firebaseConfig = {
+
 apiKey:"AIzaSyAckXOKvjKJi_Idim6Xja29h-WMpjdTXHs",
+
 authDomain:"drchat-5cfbf.firebaseapp.com",
+
 projectId:"drchat-5cfbf",
+
 storageBucket:"drchat-5cfbf.firebasestorage.app",
+
 messagingSenderId:"905952296260",
+
 appId:"1:905952296260:web:0cf8eed8be7284f0d76b11",
+
 measurementId:"G-9J7ZPXXBWS"
+
 };
 
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
+
 let currentUser = null;
+
 let currentChatUser = null;
+
 let unsubscribeMessages = null;
+
+
+/* MESSAGE STATUS */
+
+function showStatus(text){
+
+const box=document.getElementById("status");
+
+box.innerText=text;
+
+box.style.display="block";
+
+setTimeout(()=>{
+
+box.style.display="none";
+
+},4000);
+
+}
 
 
 /* SIGN UP */
 
-window.signup = async function(){
+window.signup=async function(){
 
-const email = document.getElementById("email").value.trim();
-const password = document.getElementById("password").value;
+const email=document
+.getElementById("email")
+.value.trim();
 
-if(!email || !password){
-alert("Email aur password bharo");
+const password=document
+.getElementById("password")
+.value;
+
+if(!email){
+
+alert("Email bharo");
+
 return;
+
 }
 
-if(password.length < 6){
+if(password.length<6){
+
 alert("Password kam se kam 6 characters ka hona chahiye");
+
 return;
+
 }
 
 try{
 
-const result =
-await createUserWithEmailAndPassword(auth,email,password);
+const result=
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-const username =
-prompt("Apna unique username likho:");
+let username=prompt(
+"Apna unique username likho:"
+);
 
 if(!username){
-alert("Username zaroor banana hai");
+
+alert("Username zaroor likho");
+
+await signOut(auth);
+
 return;
+
 }
 
-const cleanUsername =
-username.trim().toLowerCase();
+username=username
+.trim()
+.toLowerCase()
+.replace(/\s+/g,"");
+
+if(!username){
+
+alert("Valid username likho");
+
+await signOut(auth);
+
+return;
+
+}
+
+
+/* USERNAME UNIQUE CHECK */
+
+const usernameQuery=query(
+collection(db,"users"),
+where("username","==",username)
+);
+
+const usernameSnap=
+await getDocs(usernameQuery);
+
+if(!usernameSnap.empty){
+
+alert("Ye username already use ho raha hai");
+
+await signOut(auth);
+
+return;
+
+}
+
+
+/* USER SAVE */
 
 await setDoc(
 doc(db,"users",result.user.uid),
 {
 uid:result.user.uid,
 email:email,
-username:cleanUsername,
+username:username,
 createdAt:serverTimestamp()
 }
 );
 
-alert("Account ban gaya!");
+alert("Account successfully ban gaya!");
 
 }catch(error){
 
-alert(error.message);
+alert(
+"Account error: "+
+error.message
+);
 
 }
 
@@ -207,19 +474,59 @@ alert(error.message);
 
 /* LOGIN */
 
-window.login = async function(){
+window.login=async function(){
 
-const email =
-document.getElementById("email").value.trim();
+const email=document
+.getElementById("email")
+.value.trim();
 
-const password =
-document.getElementById("password").value;
+const password=document
+.getElementById("password")
+.value;
+
+if(!email||!password){
+
+alert("Email aur password bharo");
+
+return;
+
+}
 
 try{
 
 await signInWithEmailAndPassword(
-auth,email,password
+auth,
+email,
+password
 );
+
+}catch(error){
+
+alert(
+"Login error: "+
+error.message
+);
+
+}
+
+};
+
+
+/* LOGOUT */
+
+window.logout=async function(){
+
+try{
+
+if(unsubscribeMessages){
+
+unsubscribeMessages();
+
+unsubscribeMessages=null;
+
+}
+
+await signOut(auth);
 
 }catch(error){
 
@@ -230,36 +537,46 @@ alert(error.message);
 };
 
 
-/* LOGOUT */
+/* AUTH */
 
-window.logout = async function(){
-
-await signOut(auth);
-
-};
-
-
-/* AUTH CHECK */
-
-onAuthStateChanged(auth,async(user)=>{
+onAuthStateChanged(
+auth,
+async(user)=>{
 
 if(user){
 
 currentUser=user;
 
-document.getElementById("loginScreen")
+document
+.getElementById("loginScreen")
 .classList.add("hidden");
 
-document.getElementById("homeScreen")
+document
+.getElementById("homeScreen")
 .classList.remove("hidden");
 
-const snap =
-await getDoc(doc(db,"users",user.uid));
+try{
+
+const snap=
+await getDoc(
+doc(db,"users",user.uid)
+);
 
 if(snap.exists()){
 
-document.getElementById("myName").innerText =
-"👤 " + snap.data().username;
+document
+.getElementById("myName")
+.innerText=
+"👤 "+snap.data().username;
+
+}
+
+}catch(error){
+
+alert(
+"User data error: "+
+error.message
+);
 
 }
 
@@ -267,46 +584,71 @@ document.getElementById("myName").innerText =
 
 currentUser=null;
 
-document.getElementById("loginScreen")
+document
+.getElementById("loginScreen")
 .classList.remove("hidden");
 
-document.getElementById("homeScreen")
+document
+.getElementById("homeScreen")
 .classList.add("hidden");
 
+document
+.getElementById("chatScreen")
+.style.display="none";
+
 }
 
-});
+}
+);
 
 
-/* SEARCH USER */
+/* SEARCH */
 
-window.searchUser = async function(){
+window.searchUser=async function(){
 
-const username =
-document.getElementById("searchUser")
-.value.trim().toLowerCase();
+if(!currentUser){
+
+alert("Pehle login karo");
+
+return;
+
+}
+
+const username=document
+.getElementById("searchUser")
+.value
+.trim()
+.toLowerCase()
+.replace(/\s+/g,"");
 
 if(!username){
+
 alert("Username likho");
+
 return;
+
 }
 
-const q =
-query(
+const result=
+document.getElementById("searchResult");
+
+result.innerHTML=
+"<p class='small'>Searching...</p>";
+
+try{
+
+const q=query(
 collection(db,"users"),
 where("username","==",username)
 );
 
-const snap = await getDocsSafe(q);
-
-const result =
-document.getElementById("searchResult");
+const snap=await getDocs(q);
 
 result.innerHTML="";
 
 if(snap.empty){
 
-result.innerHTML =
+result.innerHTML=
 "<p class='small'>User nahi mila.</p>";
 
 return;
@@ -317,10 +659,13 @@ snap.forEach((d)=>{
 
 const data=d.data();
 
-if(data.uid === currentUser.uid){
-result.innerHTML =
+if(data.uid===currentUser.uid){
+
+result.innerHTML=
 "<p class='small'>Ye aapka khud ka username hai.</p>";
+
 return;
+
 }
 
 const div=document.createElement("div");
@@ -328,53 +673,71 @@ const div=document.createElement("div");
 div.className="user";
 
 div.innerHTML=
-"<b>👤 "+escapeHTML(data.username)+"</b><br>"+
+"<b>👤 "+
+escapeHTML(data.username)+
+"</b><br>"+
 "<span class='small'>Chat shuru karein →</span>";
 
-div.onclick=()=>openChat(data);
+div.onclick=function(){
+
+openChat(data);
+
+};
 
 result.appendChild(div);
 
 });
 
-};
+}catch(error){
 
-
-/* FIRESTORE SAFE QUERY */
-
-async function getDocsSafe(q){
-
-const {getDocs} =
-await import(
-"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"
-);
-
-return await getDocs(q);
+result.innerHTML=
+"<p class='small'>Search error: "+
+escapeHTML(error.message)+
+"</p>";
 
 }
+
+};
 
 
 /* OPEN CHAT */
 
 window.openChat=function(user){
 
+if(!currentUser){
+
+alert("Pehle login karo");
+
+return;
+
+}
+
 currentChatUser=user;
 
-document.getElementById("homeScreen")
+document
+.getElementById("homeScreen")
 .classList.add("hidden");
 
-document.getElementById("chatScreen")
+document
+.getElementById("chatScreen")
 .style.display="flex";
 
-document.getElementById("chatUser").innerText =
+document
+.getElementById("chatUser")
+.innerText=
 "👤 "+user.username;
+
+document
+.getElementById("messages")
+.innerHTML=
+"<p class='small'>Messages loading...</p>";
 
 loadMessages();
 
 };
 
 
-/* ROOM ID */
+/* ROOM */
 
 function getRoomId(){
 
@@ -390,67 +753,104 @@ return ids[0]+"_"+ids[1];
 }
 
 
-/* LOAD REAL-TIME MESSAGES */
+/* LOAD MESSAGES */
 
 function loadMessages(){
 
+if(!currentUser||!currentChatUser){
+
+return;
+
+}
+
+if(unsubscribeMessages){
+
+unsubscribeMessages();
+
+unsubscribeMessages=null;
+
+}
+
 const roomId=getRoomId();
 
-const q=
-query(
+const q=query(
 collection(db,"messages"),
 where("roomId","==",roomId)
 );
 
-if(unsubscribeMessages)
-unsubscribeMessages();
-
 unsubscribeMessages=
-onSnapshot(q,(snapshot)=>{
+onSnapshot(
+q,
+(snapshot)=>{
 
 const box=
 document.getElementById("messages");
 
 box.innerHTML="";
 
-let list=[];
+let messages=[];
 
 snapshot.forEach((d)=>{
 
-list.push(d.data());
+const data=d.data();
+
+messages.push({
+id:d.id,
+...data
+});
 
 });
 
-list.sort((a,b)=>{
 
-const aTime =
-a.createdAt?.seconds || 0;
+messages.sort(
+(a,b)=>{
 
-const bTime =
-b.createdAt?.seconds || 0;
+const aTime=
+a.createdAt?.seconds||0;
+
+const bTime=
+b.createdAt?.seconds||0;
 
 return aTime-bTime;
 
 });
 
-list.forEach((m)=>{
 
-const div=document.createElement("div");
+messages.forEach((m)=>{
 
-div.className =
+const div=
+document.createElement("div");
+
+div.className=
 "msg "+
-(m.senderId===currentUser.uid
-?"sent":"received");
+(
+m.senderId===currentUser.uid
+?"sent"
+:"received"
+);
 
-div.innerText=m.text;
+div.innerText=m.text||"";
 
 box.appendChild(div);
 
 });
 
-box.scrollTop=box.scrollHeight;
+box.scrollTop=
+box.scrollHeight;
 
-});
+},
+(error)=>{
+
+document
+.getElementById("messages")
+.innerHTML=
+"<p class='small'>Message load error: "+
+escapeHTML(error.message)+
+"</p>";
+
+}
+
+);
 
 }
 
@@ -459,36 +859,143 @@ box.scrollTop=box.scrollHeight;
 
 window.sendMessage=async function(){
 
+if(!currentUser){
+
+alert("Login nahi hai");
+
+return;
+
+}
+
+if(!currentChatUser){
+
+alert("User select karo");
+
+return;
+
+}
+
 const input=
 document.getElementById("messageInput");
 
 const text=input.value.trim();
 
-if(!text || !currentChatUser)
+if(!text){
+
 return;
+
+}
+
+const roomId=getRoomId();
+
+try{
+
+/*
+Temporary local message display
+*/
+
+const box=
+document.getElementById("messages");
+
+const temp=
+document.createElement("div");
+
+temp.className="msg sent";
+
+temp.innerText=text;
+
+box.appendChild(temp);
+
+box.scrollTop=
+box.scrollHeight;
+
+
+/*
+Firebase save
+*/
 
 await addDoc(
 collection(db,"messages"),
 {
-roomId:getRoomId(),
+roomId:roomId,
+
 senderId:currentUser.uid,
+
 receiverId:currentChatUser.uid,
+
 text:text,
+
 createdAt:serverTimestamp()
 }
 );
 
 input.value="";
 
+}catch(error){
+
+/*
+Remove temporary message
+*/
+
+if(boxContainsTemp(text)){
+
+removeLastTempMessage();
+
+}
+
+alert(
+"Message send nahi hua.\n\nFirebase error:\n"+
+error.message
+);
+
+}
+
 };
 
 
-/* ENTER SEND */
+/* TEMP MESSAGE HELPERS */
+
+function boxContainsTemp(text){
+
+const box=
+document.getElementById("messages");
+
+const items=
+box.querySelectorAll(".msg.sent");
+
+if(!items.length)return false;
+
+return items[items.length-1].innerText===text;
+
+}
+
+function removeLastTempMessage(){
+
+const box=
+document.getElementById("messages");
+
+const items=
+box.querySelectorAll(".msg.sent");
+
+if(items.length){
+
+items[items.length-1].remove();
+
+}
+
+}
+
+
+/* ENTER */
 
 window.enterSend=function(event){
 
 if(event.key==="Enter"){
+
+event.preventDefault();
+
 sendMessage();
+
 }
 
 };
@@ -498,23 +1005,34 @@ sendMessage();
 
 window.closeChat=function(){
 
-if(unsubscribeMessages)
+if(unsubscribeMessages){
+
 unsubscribeMessages();
 
-document.getElementById("chatScreen")
+unsubscribeMessages=null;
+
+}
+
+document
+.getElementById("chatScreen")
 .style.display="none";
 
-document.getElementById("homeScreen")
+document
+.getElementById("homeScreen")
 .classList.remove("hidden");
+
+document
+.getElementById("messageInput")
+.value="";
 
 };
 
 
-/* HTML SECURITY */
+/* SECURITY */
 
 function escapeHTML(text){
 
-return text
+return String(text)
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -526,4 +1044,4 @@ return text
 </script>
 
 </body>
-  </html>
+</html>
